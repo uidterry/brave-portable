@@ -1,5 +1,5 @@
 @echo off
-git tag -d 1.40.107-86
+git tag -a 1.40.107-86 -m "v1.40.107"
 git add .
 git commit -m "v1.40.107"
 git push
