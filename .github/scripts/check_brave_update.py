@@ -153,7 +153,7 @@ def main():
     if tag_result:
         set_output("updated", "true")
         set_output("version", latest_version)
-        set_output("tag", f"v{latest_version}-{new_release}")
+        set_output("tag", f"{latest_version}-{new_release}")
     else:
         set_output("updated", "false")
 
