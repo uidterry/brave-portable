@@ -34,16 +34,10 @@ jobs:
         run: |
           echo "✅ 已更新到Brave新版本: ${{ steps.check_update.outputs.version }}"
           echo "✅ 已创建标签: ${{ steps.check_update.outputs.tag }}"
-          echo "✅ 构建流程已触发"
+          echo "✅ 标签推送已触发构建流程，等待Release生成"
       
       - name: No updates found
         if: steps.check_update.outputs.updated != 'true'
         run: echo "✓ 没有发现Brave新版本，或更新过程出现问题"
-      
-      - name: Trigger build if update found
-        if: steps.check_update.outputs.updated == 'true'
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.REPO_ACCESS_TOKEN }}
-          event-type: brave-version-updated
-          client-payload: '{"version": "${{ steps.check_update.outputs.version }}", "tag": "${{ steps.check_update.outputs.tag }}"}' 
+
+      # 已移除repository_dispatch触发步骤，现在依赖标签推送自动触发构建 
