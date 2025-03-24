@@ -1,0 +1,49 @@
+name: Auto Publish Release
+
+on:
+  workflow_run:
+    workflows: ["build"]
+    types:
+      - completed
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Get Latest Draft Release
+        id: get_draft
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: releases } = await github.rest.repos.listReleases({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            const draftRelease = releases.find(r => r.draft);
+            if (!draftRelease) {
+              console.log('没有找到draft release');
+              return;
+            }
+            
+            console.log(`找到draft release: ${draftRelease.name}, ID: ${draftRelease.id}`);
+            return draftRelease.id;
+          result-encoding: string
+      
+      - name: Publish Draft Release
+        if: steps.get_draft.outputs.result != ''
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const releaseId = ${{ steps.get_draft.outputs.result }};
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: releaseId,
+              draft: false,
+              make_latest: "true"
+            });
+            console.log(`Release ID ${releaseId} 已发布`);
