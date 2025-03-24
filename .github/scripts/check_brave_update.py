@@ -86,8 +86,9 @@ def set_output(name, value):
         f.write(f"{name}={value}\n")
 
 def create_and_push_tag(version, release):
-    """创建并推送版本标签"""
-    tag_name = f"{version}-{release}"
+    """创建并推送版本标签，使用PAT绕过GitHub Actions限制"""
+    # 添加v前缀 
+    tag_name = f"v{version}-{release}"
     
     # 配置Git
     os.system('git config --global user.name "GitHub Actions Bot"')
@@ -95,7 +96,9 @@ def create_and_push_tag(version, release):
     
     # 获取仓库所有者和名称
     remote_url = os.popen('git config --get remote.origin.url').read().strip()
+    print(f"仓库URL: {remote_url}")
     repo_path = re.search(r'github\.com[:/](.+)(?:\.git)?$', remote_url).group(1)
+    print(f"仓库路径: {repo_path}")
     
     # 创建本地标签
     print(f"创建标签: {tag_name}")
@@ -106,7 +109,12 @@ def create_and_push_tag(version, release):
     if github_token:
         # 使用带令牌的URL进行推送
         token_url = f'https://x-access-token:{github_token}@github.com/{repo_path}'
-        print("使用PAT推送标签")
+        print(f"使用PAT推送标签: {tag_name} 到 {repo_path}")
+        
+        # 添加调试信息，但不显示令牌
+        masked_token = github_token[:4] + "..." + github_token[-4:] if len(github_token) > 8 else "***"
+        print(f"令牌信息: {masked_token}")
+        
         result = os.system(f'git push {token_url} {tag_name}')
     else:
         # 如果没有令牌，使用常规方式推送
@@ -165,9 +173,11 @@ def main():
     
     # 设置输出
     if tag_result:
+        tag_name = f"v{latest_version}-{new_release}"
         set_output("updated", "true")
         set_output("version", latest_version)
-        set_output("tag", f"{latest_version}-{new_release}")
+        set_output("tag", tag_name)
+        print(f"输出标签名: {tag_name}")
     else:
         set_output("updated", "false")
 
