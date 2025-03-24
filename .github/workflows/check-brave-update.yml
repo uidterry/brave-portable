@@ -1,0 +1,49 @@
+name: Check Brave Updates
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'  # 每12小时运行一次
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  check-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整历史以便创建标签
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 packaging
+      
+      - name: Check for Brave updates
+        id: check_update
+        run: |
+          python .github/scripts/check_brave_update.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Show update status
+        if: steps.check_update.outputs.updated == 'true'
+        run: |
+          echo "✅ 已更新到Brave新版本: ${{ steps.check_update.outputs.version }}"
+          echo "✅ 已创建标签: ${{ steps.check_update.outputs.tag }}"
+          echo "✅ 构建流程已触发"
+      
+      - name: No updates found
+        if: steps.check_update.outputs.updated != 'true'
+        run: echo "✓ 没有发现Brave新版本，或更新过程出现问题"
+      
+      - name: Trigger build if update found
+        if: steps.check_update.outputs.updated == 'true'
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: brave-version-updated
+          client-payload: '{"version": "${{ steps.check_update.outputs.version }}", "tag": "${{ steps.check_update.outputs.tag }}"}' 

@@ -6,6 +6,8 @@ on:
     tags:
       - '*'
   pull_request:
+  repository_dispatch:
+    types: [brave-version-updated]
 
 jobs:
   build:
