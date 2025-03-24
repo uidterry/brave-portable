@@ -86,13 +86,9 @@ def set_output(name, value):
         f.write(f"{name}={value}\n")
 
 def create_and_push_tag(version, release):
-    """创建并推送版本标签，使用PAT绕过GitHub Actions限制"""
+    """使用GitHub API创建标签，绕过GitHub Actions工作流触发限制"""
     # 添加v前缀 
     tag_name = f"v{version}-{release}"
-    
-    # 配置Git
-    os.system('git config --global user.name "GitHub Actions Bot"')
-    os.system('git config --global user.email "actions@github.com"')
     
     # 获取仓库所有者和名称
     remote_url = os.popen('git config --get remote.origin.url').read().strip()
@@ -100,32 +96,43 @@ def create_and_push_tag(version, release):
     repo_path = re.search(r'github\.com[:/](.+)(?:\.git)?$', remote_url).group(1)
     print(f"仓库路径: {repo_path}")
     
-    # 创建本地标签
-    print(f"创建标签: {tag_name}")
-    os.system(f'git tag {tag_name}')
+    # 获取当前提交的SHA
+    sha = os.popen('git rev-parse HEAD').read().strip()
+    print(f"当前提交SHA: {sha}")
     
-    # 使用PAT推送标签 - 这样可以触发其他工作流
+    # 使用GitHub API创建标签
     github_token = os.environ.get('REPO_ACCESS_TOKEN')
-    if github_token:
-        # 使用带令牌的URL进行推送
-        token_url = f'https://x-access-token:{github_token}@github.com/{repo_path}'
-        print(f"使用PAT推送标签: {tag_name} 到 {repo_path}")
-        
-        # 添加调试信息，但不显示令牌
-        masked_token = github_token[:4] + "..." + github_token[-4:] if len(github_token) > 8 else "***"
-        print(f"令牌信息: {masked_token}")
-        
-        result = os.system(f'git push {token_url} {tag_name}')
-    else:
-        # 如果没有令牌，使用常规方式推送
-        print("没有找到PAT，使用常规方式推送标签")
-        result = os.system(f'git push origin {tag_name}')
-    
-    if result != 0:
-        print(f"推送标签 {tag_name} 失败")
+    if not github_token:
+        print("未找到REPO_ACCESS_TOKEN，无法使用API创建标签")
         return False
     
-    print(f"成功创建并推送标签: {tag_name}")
+    # 准备API请求
+    repo_api_url = f"https://api.github.com/repos/{repo_path}"
+    headers = {
+        'Authorization': f'token {github_token}',
+        'Accept': 'application/vnd.github.v3+json'
+    }
+    
+    # 添加调试信息
+    masked_token = github_token[:4] + "..." + github_token[-4:] if len(github_token) > 8 else "***"
+    print(f"令牌信息: {masked_token}")
+    print(f"API URL: {repo_api_url}")
+    
+    # 直接创建标签引用
+    ref_data = {
+        'ref': f"refs/tags/{tag_name}",
+        'sha': sha
+    }
+    
+    print(f"通过API创建标签: {tag_name}...")
+    response = requests.post(f"{repo_api_url}/git/refs", headers=headers, json=ref_data)
+    
+    if response.status_code != 201:
+        print(f"创建标签失败: {response.status_code}")
+        print(response.text)
+        return False
+    
+    print(f"成功通过API创建标签: {tag_name}")
     return True
 
 def main():

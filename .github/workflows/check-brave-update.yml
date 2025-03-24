@@ -28,14 +28,14 @@ jobs:
           python .github/scripts/check_brave_update.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}  # 添加PAT用于标签推送
+          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}  # 添加PAT用于API调用
       
       - name: Show update status
         if: steps.check_update.outputs.updated == 'true'
         run: |
           echo "✅ 已更新到Brave新版本: ${{ steps.check_update.outputs.version }}"
-          echo "✅ 已创建标签: ${{ steps.check_update.outputs.tag }}"
-          echo "✅ 标签已使用PAT推送，应该会触发构建流程"
+          echo "✅ 已通过GitHub API创建标签: ${{ steps.check_update.outputs.tag }}"
+          echo "✅ 标签创建应该会触发构建流程，请等待片刻查看"
       
       - name: No updates found
         if: steps.check_update.outputs.updated != 'true'
