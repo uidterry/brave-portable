@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>Brave-Browser</title>
+        <link>https://updates.bravesoftware.com/sparkle/Brave-Browser/stable/appcast.xml</link>
+        <description>Most recent changes with links to updates.</description>
+        <language>en</language>
+
+            <item>
+                <title>Brave-Browser 193.138</title>
+                <sparkle:minimumSystemVersion>13.0.0</sparkle:minimumSystemVersion>
+                <description><![CDATA[
+                    Release notes at <a href="https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md">https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md</a>
+                ]]>
+                </description>
+                <pubDate>Fri, 21 Aug 2026 17:01:25 +0000</pubDate>
+                <enclosure url="https://updates-cdn.bravesoftware.com/sparkle/Brave-Browser/stable/193.138/Brave-Browser-x64.dmg"
+                           sparkle:version="193.138"
+                           sparkle:shortVersionString="1.93.138.0"
+                           sparkle:dsaSignature="MEUCIDFdDAfbLKK6nHN7/dw+GcjEQVDedhRy+fORD9OlnO/7AiEAl8j8hv/fRioG
+adypmr/k497Y3FQgQ6etuc5dGOnTou8="
+                           sparkle:edSignature="rZ06IhZnwFD4Vr5aTAzUK5wFMJoubGgI7GrVLvrJHRd77dpKWBjtswO9Eip0cg77mVt8hOhs/gXi1dgUQ3QuDQ=="
+                           length="169713601" type="application/octet-stream"/>
+
+                    <sparkle:deltas>
+
+                            <enclosure url="https://updates-cdn.bravesoftware.com/sparkledelta/Brave-Browser/stable/193.138/193.137/Brave-Browser-x64.delta"
+                               sparkle:version="193.138"
+                               sparkle:shortVersionString="1.93.138.0"
+                               sparkle:deltaFrom="193.137"
+                               length="24104386"
+                               sparkle:edSignature="iRZZQjUAzTnxnoLAWZ7Sbaqc43+DIUkkQ3xOgKTx96p9i+RQjlJhA/Zl23u65CH12pXqMaKtr8qS9DLrCS/0Ag=="
+                               type="application/octet-stream"/>
+
+                    </sparkle:deltas>
+
+            </item>
+
+            <item>
+                <title>Brave-Browser 192.144</title>
+                <sparkle:minimumSystemVersion>12.0.0</sparkle:minimumSystemVersion>
+                <description><![CDATA[
+                    Release notes at <a href="https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md">https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md</a>
+                ]]>
+                </description>
+                <pubDate>Fri, 24 Jul 2026 16:01:28 +0000</pubDate>
+                <enclosure url="https://updates-cdn.bravesoftware.com/sparkle/Brave-Browser/stable/192.144/Brave-Browser-x64.dmg"
+                           sparkle:version="192.144"
+                           sparkle:shortVersionString="1.92.144.0"
+                           sparkle:dsaSignature="MEQCIFF78ERXMsVaWKtiY26v8PYagvLKb464JxsRNQ0RCQoUAiAKcoiNc9Te31xc
+r+zNuktCnXrQC+AXJH8gbSijjWuzRQ=="
+                           sparkle:edSignature="OmywoPs1Edo1a4gBxXzpFTnouIwp4SmqXwnVpsM3FRsoZVCzhxdMss4LTo8bfzSOysg2SWR9r0IwHer6vk2SAg=="
+                           length="163940040" type="application/octet-stream"/>
+
+                    <sparkle:deltas>
+
+                            <enclosure url="https://updates-cdn.bravesoftware.com/sparkledelta/Brave-Browser/stable/192.144/192.143/Brave-Browser-x64.delta"
+                               sparkle:version="192.144"
+                               sparkle:shortVersionString="1.92.144.0"
+                               sparkle:deltaFrom="192.143"
+                               length="13989214"
+                               sparkle:edSignature="u4BeMOYeU5pA2ZI5UQ534E5fGSOCNs/EEyxx0Y8/0S5NVTI7ih6N67L5r2x3k68MROAELeUYqiy49n0WAnMRCg=="
+                               type="application/octet-stream"/>
+
+                    </sparkle:deltas>
+
+            </item>
+
+            <item>
+                <title>Brave-Browser 180.125</title>
+                <sparkle:minimumSystemVersion>11.0.0</sparkle:minimumSystemVersion>
+                <description><![CDATA[
+                    Release notes at <a href="https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md">https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md</a>
+                ]]>
+                </description>
+                <pubDate>Wed, 30 Jul 2025 16:33:23 +0000</pubDate>
+                <enclosure url="https://updates-cdn.bravesoftware.com/sparkle/Brave-Browser/stable/180.125/Brave-Browser-x64.dmg"
+                           sparkle:version="180.125"
+                           sparkle:shortVersionString="1.80.125.0"
+                           sparkle:dsaSignature="MEUCIFB/T5EmimVDgFg3NOb3SEIDmUzMK/VCj3ZfSDd6b9/PAiEAiQ5P1ouFcQKg
+xWHy8xScQ7iKGTTgb1zLXhHf3g/pJt4="
+                           sparkle:edSignature="TWKA2tG7zHVOWnJ7uUKp675h4o9NPCwnBCRatelhHV9G1y1Upqk9YGZK6MO1Yf/On0U6C/WOvWNtnxW1IDx6Bw=="
+                           length="149545361" type="application/octet-stream"/>
+
+                    <sparkle:deltas>
+
+                            <enclosure url="https://updates-cdn.bravesoftware.com/sparkledelta/Brave-Browser/stable/180.125/180.124/Brave-Browser-x64.delta"
+                               sparkle:version="180.125"
+                               sparkle:shortVersionString="1.80.125.0"
+                               sparkle:deltaFrom="180.124"
+                               length="23484397"
+                               sparkle:edSignature="GB5pxNfI1OA4zZ9sN3RCfECDArJJOAvEVqvCJiQB4h1frJZe60vWxhwFU7JzR2IcFacb+yck/LSF5ye3+mhXCA=="
+                               type="application/octet-stream"/>
+
+                    </sparkle:deltas>
+
+            </item>
+
+            <item>
+                <title>Brave-Browser 169.168</title>
+                <sparkle:minimumSystemVersion>10.15.0</sparkle:minimumSystemVersion>
+                <description><![CDATA[
+                    Release notes at <a href="https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md">https://github.com/brave/brave-browser/blob/master/CHANGELOG_DESKTOP.md</a>
+                ]]>
+                </description>
+                <pubDate>Wed, 11 Sep 2024 16:33:18 +0000</pubDate>
+                <enclosure url="https://updates-cdn.bravesoftware.com/sparkle/Brave-Browser/stable/169.168/Brave-Browser-x64.dmg"
+                           sparkle:version="169.168"
+                           sparkle:shortVersionString="1.69.168.0"
+                           sparkle:dsaSignature="MEYCIQCtdnYpooZ9VXzF6EbNflpnT02ZGZYR2vkMflxai002lAIhAJIfZLgJ9Pgw
+5oHWXWgBQWRXFKKyRZmtTamwRcuCmP+P"
+                           sparkle:edSignature="bcaSiFywGS8z4L1LU4pXkhIa6uUa5BeSO/gTjH+D1kujUlfxRfTjDkhVXJCxWRc7ivpkpDMMLLu3LDHpnbpgDg=="
+                           length="132083007" type="application/octet-stream"/>
+
+                    <sparkle:deltas>
+
+                            <enclosure url="https://updates-cdn.bravesoftware.com/sparkledelta/Brave-Browser/stable/169.168/169.162/Brave-Browser-x64.delta"
+                               sparkle:version="169.168"
+                               sparkle:shortVersionString="1.69.168.0"
+                               sparkle:deltaFrom="169.162"
+                               length="17775907"
+                               sparkle:edSignature="dPBswaOL4/PkUD4O/01OpeTNV57dwlCfjndAV4+0/T07Qc4fPa44nnOGixcuPdDTCSyQjlFMfFs8RXYE3p6KBw=="
+                               type="application/octet-stream"/>
+
+                    </sparkle:deltas>
+
+            </item>
+
+    </channel>
+</rss>

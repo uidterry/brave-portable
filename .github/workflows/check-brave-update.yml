@@ -1,0 +1,46 @@
+name: Check Brave Updates
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: '0 */12 * * *'  # 每12小时运行一次
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  check-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          fetch-depth: 0  # 获取完整历史以便创建标签
+      
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+      
+      - name: Install dependencies
+        run: python -m pip install requests packaging
+      
+      - name: Check for Brave updates
+        id: check_update
+        run: |
+          python .github/scripts/check_brave_update.py
+        env:
+          REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      
+      - name: Show update status
+        if: steps.check_update.outputs.updated == 'true'
+        run: |
+          echo "✅ 已更新到Brave新版本: ${{ steps.check_update.outputs.version }}"
+          echo "✅ 已通过GitHub API创建标签: ${{ steps.check_update.outputs.tag }}"
+          echo "✅ 标签创建应该会触发构建流程，请等待片刻查看"
+      
+      - name: No updates found
+        if: steps.check_update.outputs.updated != 'true'
+        run: echo "✓ 版本和标签均已是最新状态"
+
+      # 标签推送会触发构建工作流

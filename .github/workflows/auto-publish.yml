@@ -1,0 +1,62 @@
+name: Auto Publish Release
+
+permissions:
+  contents: write
+
+on:
+  workflow_run:
+    workflows: ["build"]
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Draft release tag to publish
+        required: true
+        type: string
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: >-
+      ${{
+        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.event == 'push' &&
+          startsWith(github.event.workflow_run.head_branch, 'v')
+        )
+      }}
+    steps:
+      - name: Publish matching draft release
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tag = context.eventName === 'workflow_dispatch'
+              ? context.payload.inputs.tag
+              : context.payload.workflow_run.head_branch;
+            const releases = await github.paginate(github.rest.repos.listReleases, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+            const release = releases.find(item => item.tag_name === tag);
+
+            if (!release) {
+              core.setFailed(`没有找到标签 ${tag} 对应的发布`);
+              return;
+            }
+            if (!release.draft) {
+              core.info(`标签 ${tag} 对应的发布已经公开，无需重复处理`);
+              return;
+            }
+
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: release.id,
+              draft: false,
+              make_latest: 'true'
+            });
+            core.info(`已发布 ${tag}，Release ID: ${release.id}`);
